@@ -8,6 +8,7 @@ class Game{
   private $locations = [];
   private $players = [];
   private $positions = [];
+  private $status = "initial";
 
   public function __construct(){
     $cases = [
@@ -65,12 +66,18 @@ class Game{
   }
 
   public function addPlayer(Player $player){
-    $this->players[] = $player;
+    if($this->status != "initial")
+      throw new Exception("Game has already started !");
+
+    if(isset($this->players[$player->token]))
+      throw new Exception("Token already in use !");
+
+    $this->players[$player->token] = $player;
     $this->positions[$player->token] = 0;
   }
 
-  public function getPlayer(){
-    return reset($this->players);
+  public function getPlayers(){
+    return $this->players;
   }
 
   public function move(Player $player, $moves){
@@ -84,6 +91,18 @@ class Game{
   public function getLocationOf(Player $player){
     $pos = $this->positions[$player->token];
     return $this->locations[$pos];
+  }
+
+  public function start(){
+    $this->status = "started";
+  }
+  public function reinit(){
+    $this->status = "initial";
+    $this->players = [];
+    $this->positions = [];
+  }
+  public function getStatus(){
+    return $this->status;
   }
 
   public function save(){
