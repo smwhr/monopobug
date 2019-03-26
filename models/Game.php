@@ -69,6 +69,10 @@ class Game{
     $this->positions[$player->token] = 0;
   }
 
+  public function getPlayer(){
+    return reset($this->players);
+  }
+
   public function move(Player $player, $moves){
     $this->positions[$player->token] = 
         (   $this->positions[$player->token] 
