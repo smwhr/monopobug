@@ -31,4 +31,9 @@
 
 </form>
 
+<h3>Prêt ?</h3>
+<form>
+  <button type="submit">Commencer la partie !</button>
+</form>
+
 <?php include("../views/foot.php"); ?>
