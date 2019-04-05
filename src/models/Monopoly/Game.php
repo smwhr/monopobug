@@ -1,8 +1,5 @@
 <?php
 
-require_once("Location.php");
-require_once("Player.php");
-
 class Game{
 
   private $locations = [];

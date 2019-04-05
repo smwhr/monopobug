@@ -14,6 +14,8 @@ class IndexController{
   public function home(){
     $board = $this->getBoard();
 
+    $dice = new Dice(6);
+
     if($board->getStatus() == "initial"){
       include("../views/index/initial.php");
     }else{
