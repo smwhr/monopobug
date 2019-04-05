@@ -1,8 +1,16 @@
 <?php
+
+namespace Controllers;
+use \Models\Generic\Dice;
+
+use \Models\Monopoly\Game as Monopoly;
+use \Models\LaBonnePaie\Game as LBP;
+
+
 class IndexController{
 
   private function getBoard(){
-    $board = new Game();
+    $board = new Monopoly();
 
     if(isset($_SESSION["saved_game"])){
       $board->load($_SESSION["saved_game"]);

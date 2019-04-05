@@ -1,4 +1,7 @@
 <?php
+namespace Models\Monopoly;
+
+use \Models\Generic\Player;
 
 class Game{
 

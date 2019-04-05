@@ -1,9 +1,11 @@
 <?php
 
+namespace Controllers;
+
 class PlayController{
 
   private function getBoard(){
-    $board = new Game();
+    $board = new \Models\Monopoly\Game();
 
     if(isset($_SESSION["saved_game"])){
       $board->load($_SESSION["saved_game"]);
@@ -14,7 +16,7 @@ class PlayController{
 
   function new_player(){
     $board = $this->getBoard();
-    $player = new Player(
+    $player = new \Models\Generic\Player(
       $_POST["player_name"],
       $_POST["player_token"]
     );

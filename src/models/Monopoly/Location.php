@@ -1,4 +1,5 @@
 <?php
+namespace Models\Monopoly;
 
 class Location{
   private $name;

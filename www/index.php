@@ -6,7 +6,9 @@ session_start();
 $controller_query = $_GET["controller"] ?? "index";
 $action = $_GET["action"] ?? "home";
 
-$controllerName = ucfirst($controller_query)."Controller";
+$controllerName = 
+              "\Controllers\\".
+              ucfirst($controller_query)."Controller";
 
 $controller = new $controllerName;
 

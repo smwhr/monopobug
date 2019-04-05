@@ -1,4 +1,5 @@
 <?php
+namespace Models\Generic;
 
 class Dice{
 
