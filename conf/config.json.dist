@@ -1,0 +1,7 @@
+{
+  "database" : {
+    "dsn": "mysql:dbname=dbname;host=127.0.0.1",
+    "user": "héhé",
+    "password": "t'as cru quoi ?"
+  }
+}
