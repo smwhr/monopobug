@@ -9,18 +9,36 @@ use \Models\LaBonnePaie\Game as LBP;
 
 class IndexController{
 
-  private function getBoard(){
-    $board = new Monopoly();
+  public function home(){
+      $db = new \Services\DBConnect(
+              "mysql:dbname=monopoly;host=127.0.0.1",
+              "monopoly",
+              "monopoly21"
+            );
+      $sql = "SELECT * FROM game";
+      $conn = $db->getConnexion();
+      $stmt = $conn->prepare($sql);
+      $stmt->execute();
+      $games = $stmt->fetchAll();
 
-    if(isset($_SESSION["saved_game"])){
-      $board->load($_SESSION["saved_game"]);
-    }
-
-    return $board;
+      include("../views/index/gamelist.php");
   }
 
-  public function home(){
-    $board = $this->getBoard();
+  public function game(){
+    $gameId = $_GET["id"];
+
+    $db = new \Services\DBConnect(
+              "mysql:dbname=monopoly;host=127.0.0.1",
+              "monopoly",
+              "monopoly21"
+            );
+    $sql = "SELECT * FROM game WHERE id = ?";
+    $conn = $db->getConnexion();
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$gameId]);
+
+    $game = $stmt->fetch();
+    $board = new Monopoly();
 
     $dice = new Dice(6);
 

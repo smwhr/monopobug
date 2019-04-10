@@ -27,4 +27,23 @@ class PlayController{
 
     header("Location: /"); exit;
   }
+
+  function new_game(){
+    $name = $_POST["game_name"];
+
+
+    $db = new \Services\DBConnect(
+              "mysql:dbname=monopoly;host=127.0.0.1",
+              "monopoly",
+              "monopoly21"
+            );
+    $conn = $db->getConnexion();
+    $sql = "INSERT INTO game (name, positions, status) 
+              VALUES (?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$name, "{}", "initial"]);
+
+    header("Location: /"); exit;
+  }
 }

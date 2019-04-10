@@ -1,5 +1,5 @@
 <?php include("../views/head.php"); ?>
-<h1>Monopoly !</h1>
+<h1>Partie : <?php echo $game["name"];?></h1>
 
 <?php if(count($board->getPlayers())):?>
   <h3>Liste des joueurs</h3>
