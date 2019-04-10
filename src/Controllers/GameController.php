@@ -23,11 +23,11 @@ class GameController extends BaseController{
 
     //TODO vérifier des trucs
 
-    $sql = "INSERT INTO player (name, token) 
-              VALUES (?, ?)";
+    $sql = "INSERT INTO player (name, token, game_id) 
+              VALUES (?, ?, ?)";
 
     $stmt = $this->conn->prepare($sql);
-    $stmt->execute([$name, $token]);
+    $stmt->execute([$name, $token, $gameId]);
 
     header("Location: /?controller=index&action=game&id=".$gameId); exit;
 

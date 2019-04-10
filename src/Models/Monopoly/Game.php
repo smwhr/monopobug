@@ -84,28 +84,20 @@ class Game{
     $saved_game = $stmt->fetch();
 
     // recupère les jours
-    $sql = "SELECT * FROM player";
+    $sql = "SELECT * FROM player WHERE game_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $saved_game["players"] = array_map(function($row){
-      return new Player($row["name"], $row["token"]);
-    }, $stmt->fetchAll());
+    $stmt->execute([$gameId]);
+    $saved_game["players"] = 
+    array_map(function($row){
+                return new Player($row["name"], $row["token"]);
+              }, 
+              $stmt->fetchAll()
+    );
 
     // on charge les données dans notre partie
     $board = new Game();
     $board->load($saved_game);
     return $board;
-  }
-
-  public function addPlayer(Player $player){
-    if($this->status != "initial")
-      throw new Exception("Game has already started !");
-
-    if(isset($this->players[$player->token]))
-      throw new Exception("Token already in use !");
-
-    $this->players[$player->token] = $player;
-    $this->positions[$player->token] = 0;
   }
 
   public function getPlayers(){
