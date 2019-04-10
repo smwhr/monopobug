@@ -5,6 +5,8 @@ use \Models\Generic\Player;
 
 class Game{
 
+  private $id;
+  private $name;
   private $locations = [];
   private $players = [];
   private $positions = [];
@@ -65,6 +67,36 @@ class Game{
     }
   }
 
+  public static function fetchAll($conn){
+    $sql = "SELECT * FROM game";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $games = $stmt->fetchAll();
+    return $games;
+  }
+
+  public static function loadFromDB($conn, $gameId){
+    $sql = "SELECT * FROM game WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$gameId]);
+
+    // recupere les infos principales
+    $saved_game = $stmt->fetch();
+
+    // recupère les jours
+    $sql = "SELECT * FROM player";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $saved_game["players"] = array_map(function($row){
+      return new Player($row["name"], $row["token"]);
+    }, $stmt->fetchAll());
+
+    // on charge les données dans notre partie
+    $board = new Game();
+    $board->load($saved_game);
+    return $board;
+  }
+
   public function addPlayer(Player $player){
     if($this->status != "initial")
       throw new Exception("Game has already started !");
@@ -104,6 +136,12 @@ class Game{
   public function getStatus(){
     return $this->status;
   }
+  public function getName(){
+    return $this->name;
+  }
+  public function getId(){
+    return $this->id;
+  }
 
   public function save(){
     return [
@@ -114,6 +152,9 @@ class Game{
 
   public function load($saved_game){
     $this->players = $saved_game["players"];
-    $this->positions = $saved_game["positions"];
+    $this->id    = $saved_game["id"];
+    $this->name      = $saved_game["name"];
+    $this->positions = json_decode($saved_game["positions"], true);
+    $this->status    = $saved_game["status"];
   }
 }

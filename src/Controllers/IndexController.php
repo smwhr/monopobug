@@ -11,10 +11,7 @@ class IndexController extends BaseController{
 
   public function home(){
 
-      $sql = "SELECT * FROM game";
-      $stmt = $this->conn->prepare($sql);
-      $stmt->execute();
-      $games = $stmt->fetchAll();
+      $games = Monopoly::fetchAll($this->conn);
 
       include("../views/index/gamelist.php");
   }
@@ -22,18 +19,10 @@ class IndexController extends BaseController{
   public function game(){
     $gameId = $_GET["id"];
 
-    $sql = "SELECT * FROM game WHERE id = ?";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute([$gameId]);
-
-    $game = $stmt->fetch();
-    
-    $board = new Monopoly();
-
-    $dice = new Dice(6);
+    $board = Monopoly::loadFromDB($this->conn, $gameId);
 
     if($board->getStatus() == "initial"){
-      include("../views/index/initial.php");
+      include("../views/game/initial.php");
     }else{
       include("../views/index/game.php");
     }

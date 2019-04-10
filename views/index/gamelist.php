@@ -13,7 +13,7 @@
 </ul>
 
 <h2>Nouelle partie</h2>
-<form method="post" action="/?controller=play&action=new_game">
+<form method="post" action="/?controller=game&action=new">
   <input type="text" name="game_name">
   <button type="submit">Créer</button>
 </form>
