@@ -7,17 +7,12 @@ use \Models\Monopoly\Game as Monopoly;
 use \Models\LaBonnePaie\Game as LBP;
 
 
-class IndexController{
+class IndexController extends BaseController{
 
   public function home(){
-      $db = new \Services\DBConnect(
-              "mysql:dbname=monopoly;host=127.0.0.1",
-              "monopoly",
-              "monopoly21"
-            );
+
       $sql = "SELECT * FROM game";
-      $conn = $db->getConnexion();
-      $stmt = $conn->prepare($sql);
+      $stmt = $this->conn->prepare($sql);
       $stmt->execute();
       $games = $stmt->fetchAll();
 
@@ -27,17 +22,12 @@ class IndexController{
   public function game(){
     $gameId = $_GET["id"];
 
-    $db = new \Services\DBConnect(
-              "mysql:dbname=monopoly;host=127.0.0.1",
-              "monopoly",
-              "monopoly21"
-            );
     $sql = "SELECT * FROM game WHERE id = ?";
-    $conn = $db->getConnexion();
-    $stmt = $conn->prepare($sql);
+    $stmt = $this->conn->prepare($sql);
     $stmt->execute([$gameId]);
 
     $game = $stmt->fetch();
+    
     $board = new Monopoly();
 
     $dice = new Dice(6);

@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class PlayController{
+class PlayController extends BaseController{
 
   private function getBoard(){
     $board = new \Models\Monopoly\Game();
@@ -31,17 +31,10 @@ class PlayController{
   function new_game(){
     $name = $_POST["game_name"];
 
-
-    $db = new \Services\DBConnect(
-              "mysql:dbname=monopoly;host=127.0.0.1",
-              "monopoly",
-              "monopoly21"
-            );
-    $conn = $db->getConnexion();
     $sql = "INSERT INTO game (name, positions, status) 
               VALUES (?, ?, ?)";
 
-    $stmt = $conn->prepare($sql);
+    $stmt = $this->conn->prepare($sql);
     $stmt->execute([$name, "{}", "initial"]);
 
     header("Location: /"); exit;

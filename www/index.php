@@ -10,6 +10,13 @@ $controllerName =
               "\Controllers\\".
               ucfirst($controller_query)."Controller";
 
-$controller = new $controllerName;
+$db = new \Services\DBConnect(
+              "mysql:dbname=monopoly;host=127.0.0.1",
+              "monopoly",
+              "monopoly21"
+            );
+$conn = $db->getConnexion();
+
+$controller = new $controllerName($conn);
 
 $controller->$action();
