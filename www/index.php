@@ -10,10 +10,11 @@ $controllerName =
               "\Controllers\\".
               ucfirst($controller_query)."Controller";
 
+$config = json_decode(file_get_contents("../conf/config.json"), true);
 $db = new \Services\DBConnect(
-              "mysql:dbname=monopoly;host=127.0.0.1",
-              "monopoly",
-              "monopoly21"
+              $config["database"]["dsn"],
+              $config["database"]["user"],
+              $config["database"]["password"]
             );
 $conn = $db->getConnexion();
 
